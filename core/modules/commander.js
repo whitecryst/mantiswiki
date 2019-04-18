@@ -70,12 +70,14 @@ Execute the next command in the sequence
 Commander.prototype.executeNextCommand = function() {
 	var self = this;
 	// Invoke the callback if there are no more commands
-	if(this.nextToken >= this.commandTokens.length) {
+	if(this.nextToken >= this.commandTokens.length ) {
 		this.callback(null);
 	} else {
 		// Get and check the command token
 		var commandName = this.commandTokens[this.nextToken++];
-		if(commandName.substr(0,2) !== "--") {
+		if(commandName == null) {
+			this.callback("Missing command: " + commandName);
+		} else if(commandName.substr(0,2) !== "--") {
 			this.callback("Missing command: " + commandName);
 		} else {
 			commandName = commandName.substr(2); // Trim off the --
